@@ -4,6 +4,7 @@ import tkinter.scrolledtext as scrolledtext
 from tkinter import filedialog as fd
 from dotenv import load_dotenv, find_dotenv
 import os
+import glob
 import json
 
 class MixoloPy(tk.Tk):
@@ -37,7 +38,9 @@ class MixoloPy(tk.Tk):
                 new_recloc_file.write("RECLOC="+recloc)
         
     def updateCatTree(self):
-        rec_folder = os.environ.get("RECLOC") + "/*"
+        rec_folder = os.environ.get("RECLOC")
+        rec_glob = glob.glob(rec_folder + "/**/*json", recursive=True)
+        cat_glob = glob.glob(rec_folder + "/**/", recursive=True)
         
 mixpy = MixoloPy()
 mixpy.mainloop()
