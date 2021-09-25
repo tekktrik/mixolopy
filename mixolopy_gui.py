@@ -18,6 +18,8 @@ class MixoloPy(tk.Tk):
         self.cat_tree.heading("#0", text="Categories", anchor="w")
         
         recs_loc = self.getRecipesLocation()
+        if recs_loc is None:
+            quit()
         self.updateCatTree()
         
     def getRecipesLocation(self):
