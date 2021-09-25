@@ -27,7 +27,8 @@ class MixoloPy(tk.Tk):
         pot_rec = find_dotenv(pot_recloc)
         if pot_rec == "":
             self.selectRecipesLocation()
-        load_dotenv(pot_rec)
+        load_dotenv(find_dotenv())
+        return os.environ.get("RECLOC")
                 
     def selectRecipesLocation(self):
         recloc = fd.askdirectory(title="Select folder to store recipes...")
@@ -36,7 +37,7 @@ class MixoloPy(tk.Tk):
                 new_recloc_file.write("RECLOC="+recloc)
         
     def updateCatTree(self):
-        pass
+        rec_folder = os.environ.get("RECLOC") + "/*"
         
 mixpy = MixoloPy()
 mixpy.mainloop()
