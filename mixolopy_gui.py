@@ -96,7 +96,7 @@ class MixoloPy(tk.Tk):
             tree_iid += 1
             
         for rec in self.recipes:
-            self.cat_tree.insert('', tk.END, text=rec.name, iid=tree_iid, open=False, image=self.rec_img)
+            self.cat_tree.insert('', tk.END, text=rec.title, iid=tree_iid, open=False, image=self.rec_img)
             self.recipe_dict[rec] = tree_iid
             pot_parent = [pot_cat for pot_cat in list(self.category_dict.keys()) if rec.is_child(pot_cat)]
             if len(pot_parent) != 0:

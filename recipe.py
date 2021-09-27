@@ -31,4 +31,4 @@ class Recipe(RecipeFileStructure):
     
     def __init__(self, rel_path):
         super().__init__(rel_path)
-        pass
+        self.title = self.name[:-5]
