@@ -16,30 +16,30 @@ class MixoloPy(tk.Tk):
         super().__init__()
         self.title("MixoloPy")
         
-        recs_loc = self.getRecipesLocation()
+        recs_loc = self.get_recipes_location()
         if recs_loc is None:
             quit()
             
         self.cat_frame = ttk.Frame(master=self)
         self.cat_frame.grid(column=0, row=0)
         self.cat_tree = None
-        self.updateCatTree()
+        self.update_cat_tree()
         
-    def getRecipesLocation(self):
+    def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
         pot_rec = find_dotenv(pot_recloc)
         if pot_rec == "":
-            self.selectRecipesLocation()
+            self.select_recipes_location()
         load_dotenv(find_dotenv())
         return os.environ.get("RECLOC")
                 
-    def selectRecipesLocation(self):
+    def select_recipes_location(self):
         recloc = fd.askdirectory(title="Select folder to store recipes...")
         if recloc != '' and recloc != None:
             with open('.env', 'w') as new_recloc_file:
                 new_recloc_file.write("RECLOC="+recloc)
         
-    def updateCatTree(self):
+    def update_cat_tree(self):
     
         self.categories = []
         self.recipes = []
