@@ -27,6 +27,8 @@ class MixoloPy(tk.Tk):
         
         self.viewer_frame = ttk.Frame(master=self)
         self.viewer_frame.grid(column=1, row=0)
+        self.drink_label = ttk.Label(master=self.viewer_frame, text="")
+        self.drink_label.pack()
         
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
@@ -41,17 +43,24 @@ class MixoloPy(tk.Tk):
         if recloc != '' and recloc != None:
             with open('.env', 'w') as new_recloc_file:
                 new_recloc_file.write("RECLOC="+recloc)
+                
+    def show_recipe(self, *args):
+        print(args)
+        curr_recipe = self.cat_tree.focus()
+        self.drink_label.config(text=curr_recipe)
         
     def update_cat_tree(self):
     
         self.categories = []
         self.recipes = []
+        
         rec_folder = os.environ.get("RECLOC")
         rec_glob = glob.glob(rec_folder + "/**/*json", recursive=True)
         cat_glob = glob.glob(rec_folder + "/**/", recursive=True)
         cat_relglob = [os.path.relpath(cat, start=rec_folder) for cat in cat_glob]
         cat_relglob = [cat_name for cat_name in cat_relglob if (cat_name != ".")]
         rec_relglob = [os.path.relpath(rec, start=rec_folder) for rec in rec_glob]
+        
         for rec in rec_relglob:
             rec_obj = recipe.Recipe(rec)
             self.recipes.append(rec_obj)
@@ -69,6 +78,7 @@ class MixoloPy(tk.Tk):
             self.cat_tree.destroy()
         self.cat_tree = ttk.Treeview(master=self.cat_frame)
         self.cat_tree.heading("#0", text="Categories", anchor="w")
+        self.cat_tree.bind("<ButtonRelease-1>", self.show_recipe)
         
         self.category_dict = {}
         self.recipe_dict = {}
