@@ -6,6 +6,7 @@ from dotenv import load_dotenv, find_dotenv
 import os
 import glob
 import json
+from PIL import Image, ImageTk
 import recipe
 
 class MixoloPy(tk.Tk):
@@ -41,6 +42,7 @@ class MixoloPy(tk.Tk):
     def updateCatTree(self):
     
         self.categories = []
+        self.recipes = []
         rec_folder = os.environ.get("RECLOC")
         rec_glob = glob.glob(rec_folder + "/**/*json", recursive=True)
         cat_glob = glob.glob(rec_folder + "/**/", recursive=True)
@@ -48,14 +50,17 @@ class MixoloPy(tk.Tk):
         cat_relglob = [cat_name for cat_name in cat_relglob if (cat_name != ".")]
         rec_relglob = [os.path.relpath(rec, start=rec_folder) for rec in rec_glob]
         for rec in rec_relglob:
-            print(rec)
-        print("-----------")
+            rec_obj = recipe.Recipe(rec)
+            self.recipes.append(rec_obj)
         for cat in cat_relglob:
             cat_obj = recipe.RecipeCategory(cat)
-            print(cat_obj.getRelativePath())
             self.categories.append(cat_obj)
             
-        print(self.categories)
+        print("------------")
+        [print(rec.name) for rec in self.recipes]
+        print("------------")
+        [print(rec.relative_path) for rec in self.recipes]
+        print("------------")
         
         if self.cat_tree is not None:
             self.cat_tree.destroy()
@@ -63,10 +68,37 @@ class MixoloPy(tk.Tk):
         self.cat_tree.heading("#0", text="Categories", anchor="w")
         
         self.category_dict = {}
-        cat_id = 0
+        self.recipe_dict = {}
+        tree_iid = 0
+        
+        curr_dir = os.path.dirname(os.path.realpath(__file__))
+        img_dir = os.path.join(curr_dir, "images")
+        
+        cat_img = os.path.join(img_dir, "treeview_category.png")
+        cat_img_obj = Image.open(cat_img)
+        cat_img_obj = cat_img_obj.resize((10, 10))
+        self.cat_img = ImageTk.PhotoImage(cat_img_obj)
+        
+        rec_img = os.path.join(img_dir, "treeview_recipe.png")
+        rec_img_obj = Image.open(rec_img)
+        rec_img_obj = rec_img_obj.resize((10, 10))
+        self.rec_img = ImageTk.PhotoImage(rec_img_obj)
         
         for cat in self.categories:
-            self.cat_tree.insert('', tk.END, text=cat.name, id=cat_id, open=False)
+            self.cat_tree.insert('', tk.END, text=cat.name, iid=tree_iid, open=False, image=self.cat_img)
+            self.category_dict[cat] = tree_iid
+            pot_parent = [pot_cat for pot_cat in list(self.category_dict.keys()) if cat.is_child(pot_cat)]
+            if len(pot_parent) != 0:
+                self.cat_tree.move(self.category_dict[cat], self.category_dict[pot_parent[0]], tk.END)
+            tree_iid += 1
+            
+        for rec in self.recipes:
+            self.cat_tree.insert('', tk.END, text=rec.name, iid=tree_iid, open=False, image=self.rec_img)
+            self.recipe_dict[rec] = tree_iid
+            pot_parent = [pot_cat for pot_cat in list(self.category_dict.keys()) if rec.is_child(pot_cat)]
+            if len(pot_parent) != 0:
+                self.cat_tree.move(self.recipe_dict[rec], self.category_dict[pot_parent[0]], tk.END)
+            tree_iid += 1
         
         self.cat_tree.pack()
         
