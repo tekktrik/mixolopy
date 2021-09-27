@@ -25,6 +25,9 @@ class MixoloPy(tk.Tk):
         self.cat_tree = None
         self.update_cat_tree()
         
+        self.viewer_frame = ttk.Frame(master=self)
+        self.viewer_frame.grid(column=1, row=0)
+        
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
         pot_rec = find_dotenv(pot_recloc)
