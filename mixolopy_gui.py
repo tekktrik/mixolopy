@@ -25,8 +25,8 @@ class MixoloPy(tk.Tk):
         self.cat_tree = None
         self.update_cat_tree()
         
-        self.viewer_frame = ttk.Frame(master=self)
-        self.viewer_frame.grid(column=1, row=0)
+        self.viewer_frame = ttk.Frame(master=self, width=100, height=100)
+        self.viewer_frame.grid(column=1, row=0, fill=None)
         self.drink_label = ttk.Label(master=self.viewer_frame, text="")
         self.drink_label.pack()
         
@@ -59,10 +59,11 @@ class MixoloPy(tk.Tk):
         cat_glob = glob.glob(rec_folder + "/**/", recursive=True)
         cat_relglob = [os.path.relpath(cat, start=rec_folder) for cat in cat_glob]
         cat_relglob = [cat_name for cat_name in cat_relglob if (cat_name != ".")]
-        rec_relglob = [os.path.relpath(rec, start=rec_folder) for rec in rec_glob]
+        #rec_relglob = [os.path.relpath(rec, start=rec_folder) for rec in rec_glob]
+        rec_relglob = [os.path.abspath(rec) for rec in rec_glob]
         
         for rec in rec_relglob:
-            rec_obj = recipe.Recipe(rec)
+            rec_obj = recipe.Recipe(rec, rec_folder)
             self.recipes.append(rec_obj)
         for cat in cat_relglob:
             cat_obj = recipe.RecipeCategory(cat)
