@@ -15,20 +15,26 @@ class MixoloPy(tk.Tk):
     
         super().__init__()
         self.title("MixoloPy")
+        self.resizable(False, False)
         
         recs_loc = self.get_recipes_location()
         if recs_loc is None:
             quit()
             
-        self.cat_frame = ttk.Frame(master=self)
+        self.cat_frame = ttk.Frame(master=self, height=100)
         self.cat_frame.grid(column=0, row=0)
         self.cat_tree = None
         self.update_cat_tree()
         
-        self.viewer_frame = ttk.Frame(master=self, width=100, height=100)
-        self.viewer_frame.grid(column=1, row=0, fill=None)
+        #self.viewer_frame = ttk.Frame(master=self, width=100, height=100)
+        self.viewer_frame = ttk.Frame(master=self, height=100)
+        #self.viewer_frame.grid(column=1, row=0, padx=500, pady=500)
+        self.viewer_frame.grid(column=1, row=0, ipady=350, ipadx=400)
         self.drink_label = ttk.Label(master=self.viewer_frame, text="")
         self.drink_label.pack()
+        self.drink_subtitle = ttk.Label(master=self.viewer_frame, text="")
+        self.drink_subtitle.pack()
+        #self.drink_label.pack(fill=None, expand=False)
         
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
@@ -45,9 +51,18 @@ class MixoloPy(tk.Tk):
                 new_recloc_file.write("RECLOC="+recloc)
                 
     def show_recipe(self, *args):
-        print(args)
-        curr_recipe = self.cat_tree.focus()
-        self.drink_label.config(text=curr_recipe)
+        is_recipe = False
+        for recipe_obj, recipe_iid in self.recipe_dict.items():
+            #print("recipe_obj", type(recipe_obj))
+            #print("recipe_iid", type(recipe_iid))
+            #print("focus", type(self.cat_tree.focus()))
+            if int(self.cat_tree.focus()) == recipe_iid:
+                curr_recipe = recipe_obj
+                is_recipe = True
+                break
+        if is_recipe:
+            self.drink_label.config(text=curr_recipe.title)
+            self.drink_subtitle.config(text=curr_recipe.subtitle)
         
     def update_cat_tree(self):
     
@@ -77,7 +92,7 @@ class MixoloPy(tk.Tk):
         
         if self.cat_tree is not None:
             self.cat_tree.destroy()
-        self.cat_tree = ttk.Treeview(master=self.cat_frame)
+        self.cat_tree = ttk.Treeview(master=self.cat_frame, height=40)
         self.cat_tree.heading("#0", text="Categories", anchor="w")
         self.cat_tree.bind("<ButtonRelease-1>", self.show_recipe)
         
