@@ -26,11 +26,19 @@ class EnsurableDict:
     REQUIRED_FIELDS = []
     
     def _check_required_attrs(self):
-        for field in self.REQUIRED_FIELDS:
+        must_save = False
+        for field in self.REQUIRED_FIELDS.keys():
             try:
                 getattr(self, field)
             except AttributeError:
+                must_save = True
                 setattr(self, field, self.REQUIRED_FIELDS[field])
+        if must_save:
+            json_dict = {}
+            for key, value in self.REQUIRED_FIELDS.items():
+                json_dict[key] = getattr(self, key, value)
+            with open(self.filepath, 'w') as json_file:
+                json.dump(json_dict, json_file, indent=4)
 
 class RecipeCategory(RecipeFileStructure):
 
@@ -60,10 +68,11 @@ class Recipe(RecipeFileStructure, EnsurableDict):
         "ingredients": []
     }
     
-    def __init__(self, abs_path, base_folder):
-        super().__init__(os.path.relpath(abs_path, start=base_folder))
+    def __init__(self, filepath, base_folder):
+        super().__init__(os.path.relpath(filepath, start=base_folder))
         #self.title = self.name[:-5]
-        with open(abs_path, 'r') as recipe_file:
+        self.filepath = filepath
+        with open(filepath, 'r') as recipe_file:
             recipe_dict = json.load(recipe_file)
             for key, value in recipe_dict.items():
                 if key != "ingredients":
