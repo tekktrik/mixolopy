@@ -15,7 +15,7 @@ class MixoloPy(tk.Tk):
     
         super().__init__()
         self.title("MixoloPy")
-        self.resizable(False, False)
+        #self.resizable(False, False)
 
         self.screen_height = self.winfo_screenheight()
         self.screen_width = self.winfo_screenwidth()
@@ -24,7 +24,7 @@ class MixoloPy(tk.Tk):
         if recs_loc is None:
             quit()
             
-        self.cat_frame = ttk.Frame(master=self, height=100)
+        self.cat_frame = ttk.Frame(master=self, height=100, width=20)
         self.cat_frame.grid(column=0, row=0)
         self.cat_tree = None
         self.update_cat_tree()
@@ -54,6 +54,8 @@ class MixoloPy(tk.Tk):
                 new_recloc_file.write("RECLOC="+recloc)
                 
     def show_recipe(self, *args):
+        self.cat_tree.update()
+        self.cat_frame.update()
         is_recipe = False
         for recipe_obj, recipe_iid in self.recipe_dict.items():
             #print("recipe_obj", type(recipe_obj))
@@ -128,8 +130,9 @@ class MixoloPy(tk.Tk):
             if len(pot_parent) != 0:
                 self.cat_tree.move(self.recipe_dict[rec], self.category_dict[pot_parent[0]], tk.END)
             tree_iid += 1
-        
-        self.cat_tree.pack(expand=True)
+
+        self.cat_tree.column("#0", width=400)
+        self.cat_tree.pack()
         
 mixpy = MixoloPy()
 mixpy.mainloop()
