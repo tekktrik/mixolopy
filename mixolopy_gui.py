@@ -16,6 +16,9 @@ class MixoloPy(tk.Tk):
         super().__init__()
         self.title("MixoloPy")
         self.resizable(False, False)
+
+        self.screen_height = self.winfo_screenheight()
+        self.screen_width = self.winfo_screenwidth()
         
         recs_loc = self.get_recipes_location()
         if recs_loc is None:
@@ -83,12 +86,9 @@ class MixoloPy(tk.Tk):
         for cat in cat_relglob:
             cat_obj = recipe.RecipeCategory(cat)
             self.categories.append(cat_obj)
-            
-        print("------------")
-        [print(rec.name) for rec in self.recipes]
-        print("------------")
-        [print(rec.relative_path) for rec in self.recipes]
-        print("------------")
+
+        s = ttk.Style(master=self)
+        s.configure("Treeview", rowheight=50)
         
         if self.cat_tree is not None:
             self.cat_tree.destroy()
@@ -105,12 +105,12 @@ class MixoloPy(tk.Tk):
         
         cat_img = os.path.join(img_dir, "treeview_category.png")
         cat_img_obj = Image.open(cat_img)
-        cat_img_obj = cat_img_obj.resize((10, 10))
+        cat_img_obj = cat_img_obj.resize((int(self.screen_height/50), int(self.screen_width/50)))
         self.cat_img = ImageTk.PhotoImage(cat_img_obj)
         
         rec_img = os.path.join(img_dir, "treeview_recipe.png")
         rec_img_obj = Image.open(rec_img)
-        rec_img_obj = rec_img_obj.resize((10, 10))
+        rec_img_obj = rec_img_obj.resize((int(self.screen_height/50), int(self.screen_width/50)))
         self.rec_img = ImageTk.PhotoImage(rec_img_obj)
         
         for cat in self.categories:
@@ -129,7 +129,7 @@ class MixoloPy(tk.Tk):
                 self.cat_tree.move(self.recipe_dict[rec], self.category_dict[pot_parent[0]], tk.END)
             tree_iid += 1
         
-        self.cat_tree.pack()
+        self.cat_tree.pack(expand=True)
         
 mixpy = MixoloPy()
 mixpy.mainloop()
