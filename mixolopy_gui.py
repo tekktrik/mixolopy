@@ -107,12 +107,12 @@ class MixoloPy(tk.Tk):
         
         cat_img = os.path.join(img_dir, "treeview_category.png")
         cat_img_obj = Image.open(cat_img)
-        cat_img_obj = cat_img_obj.resize((int(self.screen_height/50), int(self.screen_width/50)))
+        cat_img_obj = cat_img_obj.resize((int(self.screen_height/50), int(self.screen_height/50)))
         self.cat_img = ImageTk.PhotoImage(cat_img_obj)
         
         rec_img = os.path.join(img_dir, "treeview_recipe.png")
         rec_img_obj = Image.open(rec_img)
-        rec_img_obj = rec_img_obj.resize((int(self.screen_height/50), int(self.screen_width/50)))
+        rec_img_obj = rec_img_obj.resize((int(self.screen_height/50), int(self.screen_height/50)))
         self.rec_img = ImageTk.PhotoImage(rec_img_obj)
         
         for cat in self.categories:
