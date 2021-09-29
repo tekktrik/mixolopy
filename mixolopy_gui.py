@@ -70,6 +70,9 @@ class MixoloPy(tk.Tk):
                 new_recloc_file.write("RECLOC="+recloc)
                 
     def show_recipe(self, *args):
+        if self.cat_tree.focus() == "":
+            return
+        
         is_recipe = False
         for recipe_obj, recipe_iid in self.recipe_dict.items():
             if int(self.cat_tree.focus()) == recipe_iid:
