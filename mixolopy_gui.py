@@ -32,7 +32,6 @@ class MixoloPy(tk.Tk):
         self.gui_width = int(self.screen_width/(3/2))
         self.gui_height = int(self.screen_height/(2.5/2))
         self.geometry(str(self.gui_width) + "x" + str(self.gui_height))
-        #self.geometry("1200x1000")
         
         recs_loc = self.get_recipes_location()
         if recs_loc is None:
@@ -44,15 +43,11 @@ class MixoloPy(tk.Tk):
         self.cat_tree = None
         self.update_cat_tree()
         
-        #self.viewer_frame = ttk.Frame(master=self, width=100, height=100)
         self.viewer_frame = ttk.Frame(master=self, width=1000)
-        #self.viewer_frame.grid(column=1, row=0, padx=500, pady=500)
         self.drink_label = ttk.Label(master=self.viewer_frame, text="")
         self.drink_label.pack(fill=tk.NONE, pady=(100, 20))
         self.drink_subtitle = ttk.Label(master=self.viewer_frame, text="")
         self.drink_subtitle.pack(fill=tk.NONE)
-        #self.drink_label.pack(fill=None, expand=False)
-        #self.viewer_frame.grid(column=1, row=0, sticky="NE")
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
     def get_recipes_location(self):
@@ -147,8 +142,6 @@ class MixoloPy(tk.Tk):
 
         self.cat_tree.column("#0", width=200)
         self.cat_tree.pack(fill=tk.NONE)
-        #self.cat_frame.pack_forget()
-        #self.cat_frame.pack(side=tk.LEFT, fill=tk.NONE, expand=True)
         
 mixpy = MixoloPy()
 mixpy.mainloop()
