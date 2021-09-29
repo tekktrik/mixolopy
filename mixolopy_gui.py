@@ -53,9 +53,9 @@ class MixoloPy(tk.Tk):
         
         self.opinion_frame = ttk.Frame(master=self.viewer_frame)
         self.rating_label = ttk.Label(master=self.opinion_frame, text="")
-        self.rating_label.grid(column=0, row=0, padx=10)
+        self.rating_label.grid(column=0, row=0, padx=20)
         self.favorite_label = ttk.Label(master=self.opinion_frame, text="")
-        self.favorite_label.grid(column=1, row=0, padx=10)
+        self.favorite_label.grid(column=1, row=0, padx=20)
         self.opinion_frame.pack(fill=tk.NONE)
         
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
