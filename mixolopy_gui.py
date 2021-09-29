@@ -44,10 +44,20 @@ class MixoloPy(tk.Tk):
         self.update_cat_tree()
         
         self.viewer_frame = ttk.Frame(master=self, width=1000)
-        self.drink_label = ttk.Label(master=self.viewer_frame, text="")
-        self.drink_label.pack(fill=tk.NONE, pady=(100, 20))
+        
+        self.drink_label = ttk.Label(master=self.viewer_frame, text="", font=20)
+        self.drink_label.pack(fill=tk.NONE, pady=(100, 10))
+        
         self.drink_subtitle = ttk.Label(master=self.viewer_frame, text="")
-        self.drink_subtitle.pack(fill=tk.NONE)
+        self.drink_subtitle.pack(fill=tk.NONE, pady=10)
+        
+        self.opinion_frame = ttk.Frame(master=self.viewer_frame)
+        self.rating_label = ttk.Label(master=self.opinion_frame, text="")
+        self.rating_label.grid(column=0, row=0, padx=10)
+        self.favorite_label = ttk.Label(master=self.opinion_frame, text="")
+        self.favorite_label.grid(column=1, row=0, padx=10)
+        self.opinion_frame.pack(fill=tk.NONE)
+        
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
     def get_recipes_location(self):
@@ -77,6 +87,8 @@ class MixoloPy(tk.Tk):
         if is_recipe:
             self.drink_label.config(text=curr_recipe.title)
             self.drink_subtitle.config(text=curr_recipe.subtitle)
+            self.rating_label.config(text="Rating")
+            self.favorite_label.config(text="Favorite")
         
     def update_cat_tree(self):
     
