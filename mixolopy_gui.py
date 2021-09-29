@@ -38,7 +38,7 @@ class MixoloPy(tk.Tk):
         if recs_loc is None:
             quit()
             
-        self.cat_frame = ttk.Frame(master=self, height=100, width=20)
+        self.cat_frame = ttk.Frame(master=self, width=20)
         #self.cat_frame.grid(column=0, row=0)
         self.cat_frame.pack(side=tk.LEFT)
         self.cat_tree = None
@@ -105,7 +105,7 @@ class MixoloPy(tk.Tk):
         
         if self.cat_tree is not None:
             self.cat_tree.destroy()
-        self.cat_tree = ttk.Treeview(master=self.cat_frame, height=40)
+        self.cat_tree = ttk.Treeview(master=self.cat_frame, height=1000)
         self.cat_tree.heading("#0", text="Categories", anchor="w")
         self.cat_tree.bind("<ButtonRelease-1>", self.show_recipe)
         
@@ -143,7 +143,9 @@ class MixoloPy(tk.Tk):
             tree_iid += 1
 
         self.cat_tree.column("#0", width=200)
-        self.cat_tree.pack()
+        self.cat_tree.pack(fill=tk.NONE)
+        #self.cat_frame.pack_forget()
+        #self.cat_frame.pack(side=tk.LEFT, fill=tk.NONE, expand=True)
         
 mixpy = MixoloPy()
 mixpy.mainloop()
