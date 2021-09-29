@@ -15,7 +15,8 @@ class MixoloPy(tk.Tk):
     
         super().__init__()
         self.title("MixoloPy")
-        #self.resizable(False, False)
+        self.geometry("1200x1000")
+        self.resizable(False, False)
 
         self.screen_height = self.winfo_screenheight()
         self.screen_width = self.winfo_screenwidth()
@@ -25,19 +26,21 @@ class MixoloPy(tk.Tk):
             quit()
             
         self.cat_frame = ttk.Frame(master=self, height=100, width=20)
-        self.cat_frame.grid(column=0, row=0)
+        #self.cat_frame.grid(column=0, row=0)
+        self.cat_frame.pack(side=tk.LEFT)
         self.cat_tree = None
         self.update_cat_tree()
         
         #self.viewer_frame = ttk.Frame(master=self, width=100, height=100)
-        self.viewer_frame = ttk.Frame(master=self, height=100)
+        self.viewer_frame = ttk.Frame(master=self, width=1000)
         #self.viewer_frame.grid(column=1, row=0, padx=500, pady=500)
-        self.viewer_frame.grid(column=1, row=0, ipady=350, ipadx=400)
         self.drink_label = ttk.Label(master=self.viewer_frame, text="")
-        self.drink_label.pack()
+        self.drink_label.pack(fill=tk.NONE, pady=(100, 20))
         self.drink_subtitle = ttk.Label(master=self.viewer_frame, text="")
-        self.drink_subtitle.pack()
+        self.drink_subtitle.pack(fill=tk.NONE)
         #self.drink_label.pack(fill=None, expand=False)
+        #self.viewer_frame.grid(column=1, row=0, sticky="NE")
+        self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
@@ -54,13 +57,8 @@ class MixoloPy(tk.Tk):
                 new_recloc_file.write("RECLOC="+recloc)
                 
     def show_recipe(self, *args):
-        self.cat_tree.update()
-        self.cat_frame.update()
         is_recipe = False
         for recipe_obj, recipe_iid in self.recipe_dict.items():
-            #print("recipe_obj", type(recipe_obj))
-            #print("recipe_iid", type(recipe_iid))
-            #print("focus", type(self.cat_tree.focus()))
             if int(self.cat_tree.focus()) == recipe_iid:
                 curr_recipe = recipe_obj
                 is_recipe = True
@@ -90,7 +88,7 @@ class MixoloPy(tk.Tk):
             self.categories.append(cat_obj)
 
         s = ttk.Style(master=self)
-        s.configure("Treeview", rowheight=50)
+        s.configure("Treeview", rowheight=25)
         
         if self.cat_tree is not None:
             self.cat_tree.destroy()
@@ -107,12 +105,12 @@ class MixoloPy(tk.Tk):
         
         cat_img = os.path.join(img_dir, "treeview_category.png")
         cat_img_obj = Image.open(cat_img)
-        cat_img_obj = cat_img_obj.resize((int(self.screen_height/50), int(self.screen_height/50)))
+        cat_img_obj = cat_img_obj.resize((int(self.screen_height/100), int(self.screen_height/100)))
         self.cat_img = ImageTk.PhotoImage(cat_img_obj)
         
         rec_img = os.path.join(img_dir, "treeview_recipe.png")
         rec_img_obj = Image.open(rec_img)
-        rec_img_obj = rec_img_obj.resize((int(self.screen_height/50), int(self.screen_height/50)))
+        rec_img_obj = rec_img_obj.resize((int(self.screen_height/100), int(self.screen_height/100)))
         self.rec_img = ImageTk.PhotoImage(rec_img_obj)
         
         for cat in self.categories:
@@ -131,7 +129,7 @@ class MixoloPy(tk.Tk):
                 self.cat_tree.move(self.recipe_dict[rec], self.category_dict[pot_parent[0]], tk.END)
             tree_iid += 1
 
-        self.cat_tree.column("#0", width=400)
+        self.cat_tree.column("#0", width=200)
         self.cat_tree.pack()
         
 mixpy = MixoloPy()
