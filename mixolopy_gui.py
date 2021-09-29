@@ -29,7 +29,7 @@ class MixoloPy(tk.Tk):
         print("height", self.screen_height)
         print("width", self.screen_width)
         
-        self.geometry(str(int(self.screen_width/2)) + "x" + str(int(self.screen_height/2)))
+        self.geometry(str(int(self.screen_width/(3/2))) + "x" + str(int(self.screen_height/(2.5/2))))
         #self.geometry("1200x1000")
         
         recs_loc = self.get_recipes_location()
