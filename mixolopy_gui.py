@@ -67,13 +67,32 @@ class MixoloPy(tk.Tk):
         
         self.opinion_frame = ttk.Frame(master=self.viewer_frame)
         self.rating_label = ttk.Label(master=self.opinion_frame, text="")
-        self.rating_label.grid(column=0, row=0, padx=20)
+        self.rating_label.grid(column=0, row=0, padx=30)
         self.favorite_label = ttk.Label(master=self.opinion_frame, text="")
-        self.favorite_label.grid(column=1, row=0, padx=20)
+        self.favorite_label.grid(column=1, row=0, padx=30)
+        self.userrating_frame = ttk.Frame(master=self.opinion_frame)
+        self.userrating_decbut = ttk.Button(master=self.userrating_frame, text="-", width=3, command=self.decrease_rating)
+        self.userrating_value = ttk.Label(master=self.userrating_frame, width=3, anchor=tk.CENTER, text="4")
+        self.userrating_decbut.grid(column=0, row=0)
+        self.userrating_value.grid(column=1, row=0)
+        self.userrating_incbut = ttk.Button(master=self.userrating_frame, text="+", width=3, command=self.increase_rating)
+        self.userrating_incbut.grid(column=2, row=0)
+        self.userrating_frame.grid(column=0, row=1)
+        self.favorite_button = ttk.Button(master=self.opinion_frame, text="Favorite", command=self.toggle_favorite)
+        self.favorite_button.grid(column=1, row=1)
         self.opinion_frame.pack(fill=tk.NONE)
         
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
+    def toggle_favorite(self, *args):
+        pass
+        
+    def decrease_rating(self, *args):
+        pass
+        
+    def increase_rating(self, *args):
+        pass
+    
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
         pot_rec = find_dotenv(pot_recloc)
