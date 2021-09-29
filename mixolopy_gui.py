@@ -122,7 +122,8 @@ class MixoloPy(tk.Tk):
             self.favorite_label.config(text="Favorite")
             self.userrating_value.config(text=curr_recipe.rating)
             self.userrating_decbut.grid(column=0, row=0)
-            self.userrating_value.config(text=curr_recipe.rating)
+            rating = curr_recipe.rating if curr_recipe.rating != None else "N/A"
+            self.userrating_value.config(text=rating)
             self.userrating_incbut.grid(column=2, row=0)
             self.favorite_button.grid(column=1, row=1)
             
