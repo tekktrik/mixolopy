@@ -16,10 +16,17 @@ class MixoloPy(tk.Tk):
         super().__init__()
         self.title("MixoloPy")
         self.geometry("1200x1000")
+        #prev_width_ = 1200
+        #prev_height = 1000
+        #curr_width_laptop = 1700
+        #curr_height_laptop = 960
         self.resizable(False, False)
 
         self.screen_height = self.winfo_screenheight()
         self.screen_width = self.winfo_screenwidth()
+        
+        print("height", self.screen_height)
+        print("width", self.screen_width)
         
         recs_loc = self.get_recipes_location()
         if recs_loc is None:
