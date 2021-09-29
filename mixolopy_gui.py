@@ -72,14 +72,12 @@ class MixoloPy(tk.Tk):
         self.favorite_label.grid(column=1, row=0, padx=30)
         self.userrating_frame = ttk.Frame(master=self.opinion_frame)
         self.userrating_decbut = ttk.Button(master=self.userrating_frame, text="-", width=3, command=self.decrease_rating)
-        self.userrating_value = ttk.Label(master=self.userrating_frame, width=3, anchor=tk.CENTER, text="4")
-        self.userrating_decbut.grid(column=0, row=0)
+        self.userrating_value = ttk.Label(master=self.userrating_frame, width=3, anchor=tk.CENTER, text="")
+        #self.userrating_decbut.grid(column=0, row=0)
         self.userrating_value.grid(column=1, row=0)
         self.userrating_incbut = ttk.Button(master=self.userrating_frame, text="+", width=3, command=self.increase_rating)
-        self.userrating_incbut.grid(column=2, row=0)
         self.userrating_frame.grid(column=0, row=1)
         self.favorite_button = ttk.Button(master=self.opinion_frame, text="Favorite", command=self.toggle_favorite)
-        self.favorite_button.grid(column=1, row=1)
         self.opinion_frame.pack(fill=tk.NONE)
         
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
@@ -122,6 +120,12 @@ class MixoloPy(tk.Tk):
             self.drink_subtitle.config(text=curr_recipe.subtitle)
             self.rating_label.config(text="Rating")
             self.favorite_label.config(text="Favorite")
+            self.userrating_value.config(text=curr_recipe.rating)
+            self.userrating_decbut.grid(column=0, row=0)
+            self.userrating_value.config(text=curr_recipe.rating)
+            self.userrating_incbut.grid(column=2, row=0)
+            self.favorite_button.grid(column=1, row=1)
+            
         
     def update_cat_tree(self):
     
