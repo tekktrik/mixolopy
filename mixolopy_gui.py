@@ -82,8 +82,17 @@ class MixoloPy(tk.Tk):
         
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
+    def display_favorite_status(self):
+        new_text = "Remove from favorites" if self.current_recipe.favorite else "Add to Favorites"
+        new_color = "#D93D44" if self.current_recipe.favorite else "#CCC4C4"
+        self.favorite_button["text"] = new_text
+        self.favorite_button.configure(bg=new_color)
+        
     def toggle_favorite(self, *args):
-        pass
+        self.current_recipe.favorite = False if self.current_recipe.favorite else True
+        print(self.current_recipe.favorite)
+        self.display_favorite_status()
+        self.current_recipe.save()
         
     def decrease_rating(self, *args):
         pass
@@ -127,6 +136,8 @@ class MixoloPy(tk.Tk):
             self.userrating_incbut.grid(column=2, row=0)
             self.favorite_button.grid(column=1, row=1)
             self.current_recipe = curr_recipe
+            
+            self.display_favorite_status()
             
         
     def update_cat_tree(self):
