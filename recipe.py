@@ -99,7 +99,7 @@ class Recipe(RecipeFileStructure, EnsurableDict):
         return recipe_dict
             
     def save(self):
-        with open(filepath, 'w') as recipe_file:
+        with open(self.filepath, 'w') as recipe_file:
             json.dump(self.to_dict(), recipe_file)
                 
 class Ingredient(EnsurableDict):
