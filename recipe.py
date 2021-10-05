@@ -98,7 +98,7 @@ class Recipe(RecipeFileStructure, EnsurableDict):
                 recipe_dict[key] = getattr(self, key)
         return recipe_dict
             
-    def save_recipe(self):
+    def save(self):
         with open(filepath, 'w') as recipe_file:
             json.dump(self.to_dict(), recipe_file)
                 
