@@ -99,3 +99,9 @@ class Ingredient(EnsurableDict):
         for key, value in ingredient_dict.items():
             setattr(self, key, value)
         self._check_required_attrs()
+
+    def to_dict(self):
+        ingredient_dict = {}
+        for key in self.REQUIRED_FIELDS.keys():
+            ingredient_dict[key] = getattr(self, key)
+        return ingredient_dict
