@@ -85,6 +85,18 @@ class Recipe(RecipeFileStructure, EnsurableDict):
                     for ingredient_map in value:
                         self.ingredients.append(Ingredient(ingredient_map))
             self._check_required_attrs()
+            
+    def to_dict(self):
+        recipe_dict = {}
+        for key in self.REQUIRED_FIELDS.keys():
+            if key == "ingredients":
+                ingredient_list = []
+                for ingredient in self.ingredients:
+                    ingredient_list.append(ingredient.to_dict())
+                recipe_dict["ingredients"] = ingredient_list
+            else:
+                recipe_dict[key] = getattr(self, key)
+        return recipe_dict
                 
 class Ingredient(EnsurableDict):
 
