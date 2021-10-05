@@ -126,6 +126,7 @@ class MixoloPy(tk.Tk):
             self.userrating_value.config(text=rating)
             self.userrating_incbut.grid(column=2, row=0)
             self.favorite_button.grid(column=1, row=1)
+            self.current_recipe = curr_recipe
             
         
     def update_cat_tree(self):
