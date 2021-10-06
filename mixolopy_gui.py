@@ -94,11 +94,27 @@ class MixoloPy(tk.Tk):
         self.display_favorite_status()
         self.current_recipe.save()
         
+    def display_rating_status(self):
+        new_text = "N/A" if self.current_recipe.rating == None else str(self.current_recipe.rating)
+        self.userrating_value.config(text=new_text)
+        
     def decrease_rating(self, *args):
-        pass
+        if self.current_recipe.rating != None:
+            if self.current_recipe.rating == 0:
+                self.current_recipe.rating = None
+            else:
+                self.current_recipe.rating -= 0.5
+        self.display_rating_status()
+        self.current_recipe.save()
         
     def increase_rating(self, *args):
-        pass
+        if self.current_recipe.rating != None:
+            if self.current_recipe.rating < 5:
+                self.current_recipe.rating += 0.5
+        else:
+            self.current_recipe.rating = 0
+        self.display_rating_status()
+        self.current_recipe.save()
     
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
@@ -138,6 +154,7 @@ class MixoloPy(tk.Tk):
             self.current_recipe = curr_recipe
             
             self.display_favorite_status()
+            self.display_rating_status()
             
         
     def update_cat_tree(self):
