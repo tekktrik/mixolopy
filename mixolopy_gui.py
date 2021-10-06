@@ -67,9 +67,9 @@ class MixoloPy(tk.Tk):
         
         self.opinion_frame = ttk.Frame(master=self.viewer_frame)
         self.rating_label = ttk.Label(master=self.opinion_frame, text="")
-        self.rating_label.grid(column=0, row=0, padx=30)
+        self.rating_label.grid(column=0, row=0, padx=50)
         self.favorite_label = ttk.Label(master=self.opinion_frame, text="")
-        self.favorite_label.grid(column=1, row=0, padx=30)
+        self.favorite_label.grid(column=1, row=0, padx=50)
         self.userrating_frame = ttk.Frame(master=self.opinion_frame)
         self.userrating_decbut = tk.Button(master=self.userrating_frame, text="-", width=3, command=self.decrease_rating)
         self.userrating_value = ttk.Label(master=self.userrating_frame, width=4, anchor=tk.CENTER, text="")
