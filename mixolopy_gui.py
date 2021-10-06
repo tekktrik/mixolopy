@@ -90,7 +90,6 @@ class MixoloPy(tk.Tk):
         
     def toggle_favorite(self, *args):
         self.current_recipe.favorite = False if self.current_recipe.favorite else True
-        print(self.current_recipe.favorite)
         self.display_favorite_status()
         self.current_recipe.save()
         
