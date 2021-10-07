@@ -111,6 +111,13 @@ class Ingredient(EnsurableDict):
         "type": "main"
     }
     
+    FRACTION_STR = {
+        0.75: "\u00BE",
+        0.5: "\u00BD",
+        0.25: "\u00BC",
+        0.125: "\u215B"
+    }
+    
     def __init__(self, ingredient_dict):
         for key, value in ingredient_dict.items():
             setattr(self, key, value)
