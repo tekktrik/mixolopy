@@ -190,14 +190,14 @@ class MixoloPy(tk.Tk):
         self.inner_ingredient_frame = ttk.Frame(master=self.ingredient_frame)
         
         for ingredient in self.current_recipe.ingredients:
-            amount_label = ttk.Label(master=self.inner_ingredient_frame, text="\u00BC")
-            amount_label.grid(column=1, row=ingredient_index)
-            msmt_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.msmt)
-            msmt_label.grid(column=2, row=ingredient_index)
-            name_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.name)
-            name_label.grid(column=3, row=ingredient_index)
-            type_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.type)
-            type_label.grid(column=4, row=ingredient_index)
+            amount_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.amount, font=20)
+            amount_label.grid(column=1, row=ingredient_index, padx=(0, 0))
+            msmt_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.msmt, font=20)
+            msmt_label.grid(column=2, row=ingredient_index, padx=5)
+            name_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.name, font=20)
+            name_label.grid(column=3, row=ingredient_index, padx=20)
+            type_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.type, font=20)
+            type_label.grid(column=4, row=ingredient_index, padx=(5, 0))
             ingredient_index += 1
             
         self.inner_ingredient_frame.pack()
