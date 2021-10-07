@@ -101,6 +101,12 @@ class Recipe(RecipeFileStructure, EnsurableDict):
     def save(self):
         with open(self.filepath, 'w') as recipe_file:
             json.dump(self.to_dict(), recipe_file)
+            
+    def add_ingredient(self, ingredient):
+        self.ingredients.append(ingredient)
+        
+    def remove_ingredient(self, ingredient):
+        self.ingredients.pop(ingredient)
                 
 class Ingredient(EnsurableDict):
 
