@@ -87,16 +87,20 @@ class MixoloPy(tk.Tk):
         self.opinion_frame.pack(fill=tk.NONE)
         
         self.ingredient_frame = ttk.Frame(master=self.viewer_frame)
+        self.inner_ingredient_frame = ttk.Frame(master=self.ingredient_frame)
+        self.inner_ingredient_frame.pack()
         self.ingredient_frame.pack(pady=(50, 5))
         
-        self.add_ingredient_frame = ttk.Frame(master=self.viewer_frame)
-        self.add_ingredient_button = tk.Button(master=self.add_ingredient_frame, text="Add Ingredient")
-        self.add_ingredient_frame.pack(pady=5)
+        self.edit_ingredients_frame = ttk.Frame(master=self.viewer_frame)
+        self.add_ingredient_button = tk.Button(master=self.edit_ingredients_frame, text="Add Ingredient", command=self.add_ingredient)
+        self.remove_ingredients_button = tk.Button(master=self.edit_ingredients_frame, text="Remove Ingredient(s)", command=self.begin_remove_ingredients)
+        self.edit_ingredients_frame.pack(pady=5)
         
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
         self.editing_field = False
         self.editing_stringvar = tk.StringVar()
+        self.ing_checkboxs = []
         
     def update_recipe_field(self, tk_label, recipe_attr, pack_style, pack_arg_dict=None):
         
@@ -180,14 +184,69 @@ class MixoloPy(tk.Tk):
         
     def display_ingredients(self):
     
-        self.ingredient_grid_refs = []
+        ingredient_index = 0
+        
+        self.inner_ingredient_frame.destroy()
+        self.inner_ingredient_frame = ttk.Frame(master=self.ingredient_frame)
+        
+        for ingredient in self.current_recipe.ingredients:
+            amount_label = ttk.Label(master=self.inner_ingredient_frame, text="\u00BC")
+            amount_label.grid(column=1, row=ingredient_index)
+            msmt_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.msmt)
+            msmt_label.grid(column=2, row=ingredient_index)
+            name_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.name)
+            name_label.grid(column=3, row=ingredient_index)
+            type_label = ttk.Label(master=self.inner_ingredient_frame, text=ingredient.type)
+            type_label.grid(column=4, row=ingredient_index)
+            ingredient_index += 1
+            
+        self.inner_ingredient_frame.pack()
+            
+    def display_ingredient_buttons(self):
+    
+        self.add_ingredient_button.grid(column=0, row=0)
+        if len(self.current_recipe.ingredients) > 0:
+            self.remove_ingredients_button.grid(column=1, row=0, padx=(10, 0))
+        else:
+            self.remove_ingredients_button.grid_forget()
+            
+    def add_ingredient(self):
+        self.current_recipe.add_ingredient(recipe.Ingredient.from_default())
+        self.current_recipe.save()
+        self.display_ingredients()
+        self.display_ingredient_buttons()
+        
+    def begin_remove_ingredients(self):
+    
+        if self.editing_field:
+            return
+        else:
+            self.editing_field = True
+        
+        self.ing_checkboxs = []
         ingredient_index = 0
         
         for ingredient in self.current_recipe.ingredients:
-            amount_label = ttk.Label(master=self.ingredient_frame, text=ingredient.name)
-            amount_label.grid(col=0, row=ingredient_index)
-            msmt_label = ttk.Label(master=self.ingredient_frame, text="\u0188")
-            msmt_label.grid(col=1, row=ingredient_index)
+            checkbox_var = tk.IntVar()
+            self.ing_checkboxs.append(checkbox_var)
+            ing_checkbox = tk.Checkbutton(master=self.inner_ingredient_frame, variable=checkbox_var)
+            ing_checkbox.grid(column=0, row=ingredient_index)
+            self.remove_ingredients_button.configure(text="Remove selected ingredient(s)", command=self.finalize_remove_ingredients)
+            ingredient_index += 1
+            
+    def finalize_remove_ingredients(self):
+        
+        num_ingredients = len(self.ing_checkboxs)
+        for box_index in range(num_ingredients-1, -1, -1):
+            if self.ing_checkboxs[box_index].get() == 1:
+                self.current_recipe.ingredients.pop(box_index)
+        
+        self.remove_ingredients_button.configure(text="Remove Ingredient(s)", command=self.begin_remove_ingredients)
+        self.editing_field = False
+        
+        self.current_recipe.save()
+        self.display_ingredients()
+        self.display_ingredient_buttons()
     
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
@@ -229,8 +288,7 @@ class MixoloPy(tk.Tk):
             self.display_favorite_status()
             self.display_rating_status()
             self.display_ingredients()
-            
-            self.add_ingredient_button.pack()
+            self.display_ingredient_buttons()
             
         
     def update_cat_tree(self):
