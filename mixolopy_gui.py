@@ -80,6 +80,13 @@ class MixoloPy(tk.Tk):
         self.favorite_button = tk.Button(master=self.opinion_frame, text="Favorites", command=self.toggle_favorite)
         self.opinion_frame.pack(fill=tk.NONE)
         
+        self.ingredient_frame = ttk.Frame(master=self.viewer_frame)
+        self.ingredient_frame.pack(pady=(50, 5))
+        
+        self.add_ingredient_frame = ttk.Frame(master=self.viewer_frame)
+        self.add_ingredient_button = tk.Button(master=self.add_ingredient_frame, text="Add Ingredient")
+        self.add_ingredient_frame.pack(pady=5)
+        
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
     def display_favorite_status(self):
@@ -114,6 +121,17 @@ class MixoloPy(tk.Tk):
             self.current_recipe.rating = 0
         self.display_rating_status()
         self.current_recipe.save()
+        
+    def display_ingredients(self):
+    
+        self.ingredient_grid_refs = []
+        ingredient_index = 0
+        
+        for ingredient in self.current_recipe.ingredients:
+            amount_label = ttk.Label(master=self.ingredient_frame, text=ingredient.name)
+            amount_label.grid(col=0, row=ingredient_index)
+            msmt_label = ttk.Label(master=self.ingredient_frame, text="\u0188")
+            msmt_label.grid(col=1, row=ingredient_index)
     
     def get_recipes_location(self):
         pot_recloc = os.path.join(os.path.dirname(__file__), ".env")
@@ -154,6 +172,9 @@ class MixoloPy(tk.Tk):
             
             self.display_favorite_status()
             self.display_rating_status()
+            self.display_ingredients()
+            
+            self.add_ingredient_button.pack()
             
         
     def update_cat_tree(self):
