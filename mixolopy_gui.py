@@ -60,13 +60,13 @@ class MixoloPy(tk.Tk):
         self.viewer_frame = ttk.Frame(master=self, width=1000)
         
         self.drink_label_frame = ttk.Frame(master=self.viewer_frame)
-        self.drink_label = ttk.Label(master=self.drink_label_frame, text="", font=20)
+        self.drink_label = ttk.Label(master=self.drink_label_frame, text="", font=("Arial", 26))
         self.drink_label.bind("<Button-1>", self.user_edit_drink_name)
         self.drink_label.pack()
         self.drink_label_frame.pack(fill=tk.NONE, pady=(100, 10))
         
         self.drink_subtitle_frame = ttk.Frame(master=self.viewer_frame)
-        self.drink_subtitle = ttk.Label(master=self.drink_subtitle_frame, text="")
+        self.drink_subtitle = ttk.Label(master=self.drink_subtitle_frame, text="", font=("Arial", 12))
         self.drink_subtitle.bind("<Button-1>", self.user_edit_drink_subtitle)
         self.drink_subtitle.pack()
         self.drink_subtitle_frame.pack(fill=tk.NONE, pady=10)
