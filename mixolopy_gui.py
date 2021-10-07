@@ -67,6 +67,7 @@ class MixoloPy(tk.Tk):
         
         self.drink_subtitle_frame = ttk.Frame(master=self.viewer_frame)
         self.drink_subtitle = ttk.Label(master=self.drink_subtitle_frame, text="")
+        self.drink_subtitle.bind("<Button-1>", self.user_edit_drink_subtitle)
         self.drink_subtitle.pack()
         self.drink_subtitle_frame.pack(fill=tk.NONE, pady=10)
         
@@ -134,6 +135,9 @@ class MixoloPy(tk.Tk):
         
     def user_edit_drink_name(self, *args):
         self.user_edit_label(self.drink_label, "title", "pack", entry_type="entry", font_size=20)
+        
+    def user_edit_drink_subtitle(self, *args):
+        self.user_edit_label(self.drink_subtitle, "subtitle", "pack", entry_type="entry")
         
     def display_favorite_status(self):
         new_text = "Remove from favorites" if self.current_recipe.favorite else "Add to Favorites"
