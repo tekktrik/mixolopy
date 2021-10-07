@@ -59,11 +59,16 @@ class MixoloPy(tk.Tk):
         
         self.viewer_frame = ttk.Frame(master=self, width=1000)
         
-        self.drink_label = ttk.Label(master=self.viewer_frame, text="", font=20)
-        self.drink_label.pack(fill=tk.NONE, pady=(100, 10))
+        self.drink_label_frame = ttk.Frame(master=self.viewer_frame)
+        self.drink_label = ttk.Label(master=self.drink_label_frame, text="", font=20)
+        self.drink_label.bind("<Button-1>", self.user_edit_drink_name)
+        self.drink_label.pack()
+        self.drink_label_frame.pack(fill=tk.NONE, pady=(100, 10))
         
-        self.drink_subtitle = ttk.Label(master=self.viewer_frame, text="")
-        self.drink_subtitle.pack(fill=tk.NONE, pady=10)
+        self.drink_subtitle_frame = ttk.Frame(master=self.viewer_frame)
+        self.drink_subtitle = ttk.Label(master=self.drink_subtitle_frame, text="")
+        self.drink_subtitle.pack()
+        self.drink_subtitle_frame.pack(fill=tk.NONE, pady=10)
         
         self.opinion_frame = ttk.Frame(master=self.viewer_frame)
         self.rating_label = ttk.Label(master=self.opinion_frame, text="")
@@ -88,6 +93,47 @@ class MixoloPy(tk.Tk):
         self.add_ingredient_frame.pack(pady=5)
         
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        
+        self.editing_stringvar = tk.StringVar()
+        
+    def update_recipe_field(self, tk_label, recipe_attr, pack_style, pack_arg_dict=None):
+        
+        #label_dict = {} if label_arg_dict == None else {**label_arg_dict}
+        #label_dict["master"] = tk_label.master
+        self.edit_entry.destroy()
+        self.edit_button.destroy()
+        new_text = self.editing_stringvar.get()
+        tk_label.config(text=new_text)
+        #tk_label = ttk.Label(**label_dict)
+        if pack_style == "pack":
+            tk_label.pack()
+        elif pack_style == "grid":
+            tk_label.grid(**pack_arg_dict)
+        setattr(self.current_recipe, recipe_attr, new_text)
+        self.current_recipe.save()
+        
+    def user_edit_label(self, tk_label, recipe_attr, pack_style, entry_type="entry", font_size=12):
+    
+        label_master = tk_label.master
+        label_text = tk_label.cget("text")
+        
+        if pack_style == "pack":
+            tk_label.pack_forget()
+        elif pack_style == "grid":
+            tk_label.grid_forget()
+        else:
+            raise Exception("Invalid pack method given")
+            
+        self.editing_stringvar.set(label_text)
+        
+        if entry_type == "entry":
+            self.edit_entry = ttk.Entry(master=label_master, width=25, textvariable=self.editing_stringvar, font=font_size)
+            self.edit_entry.grid(column=0, row=0, padx=(0, 10))
+            self.edit_button = tk.Button(master=label_master, text="Save", command=lambda:self.update_recipe_field(tk_label, "title", pack_style))
+            self.edit_button.grid(column=1, row=0)
+        
+    def user_edit_drink_name(self, *args):
+        self.user_edit_label(self.drink_label, "title", "pack", entry_type="entry", font_size=20)
         
     def display_favorite_status(self):
         new_text = "Remove from favorites" if self.current_recipe.favorite else "Add to Favorites"
