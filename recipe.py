@@ -121,3 +121,7 @@ class Ingredient(EnsurableDict):
         for key in self.REQUIRED_FIELDS.keys():
             ingredient_dict[key] = getattr(self, key)
         return ingredient_dict
+        
+    @classmethod
+    def from_default(cls):
+        return cls(cls.REQUIRED_FIELDS)
