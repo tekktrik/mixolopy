@@ -105,7 +105,7 @@ class Recipe(RecipeFileStructure, EnsurableDict):
 class Ingredient(EnsurableDict):
 
     REQUIRED_FIELDS = {
-        "name": "Magic",
+        "name": "Ingredient",
         "amount": "1",
         "msmt": "oz",
         "type": "main"
