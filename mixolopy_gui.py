@@ -100,13 +100,11 @@ class MixoloPy(tk.Tk):
         
     def update_recipe_field(self, tk_label, recipe_attr, pack_style, pack_arg_dict=None):
         
-        #label_dict = {} if label_arg_dict == None else {**label_arg_dict}
-        #label_dict["master"] = tk_label.master
         self.edit_entry.destroy()
         self.edit_button.destroy()
         new_text = self.editing_stringvar.get()
         tk_label.config(text=new_text)
-        #tk_label = ttk.Label(**label_dict)
+        
         if pack_style == "pack":
             tk_label.pack()
         elif pack_style == "grid":
