@@ -95,6 +95,7 @@ class MixoloPy(tk.Tk):
         
         self.viewer_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         
+        self.editing_field = False
         self.editing_stringvar = tk.StringVar()
         
     def update_recipe_field(self, tk_label, recipe_attr, pack_style, pack_arg_dict=None):
@@ -113,7 +114,14 @@ class MixoloPy(tk.Tk):
         setattr(self.current_recipe, recipe_attr, new_text)
         self.current_recipe.save()
         
+        self.editing_field = False
+        
     def user_edit_label(self, tk_label, recipe_attr, pack_style, entry_type="entry", font_size=12):
+    
+        if self.editing_field:
+            return
+        else:
+            self.editing_field = True
     
         label_master = tk_label.master
         label_text = tk_label.cget("text")
