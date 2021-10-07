@@ -144,7 +144,7 @@ class MixoloPy(tk.Tk):
             self.edit_button.grid(column=1, row=0)
         
     def user_edit_drink_name(self, *args):
-        self.user_edit_label(self.drink_label, "title", "pack", entry_type="entry", font_size=20)
+        self.user_edit_label(self.drink_label, "title", "pack", entry_type="entry", font_size=30)
         
     def user_edit_drink_subtitle(self, *args):
         self.user_edit_label(self.drink_subtitle, "subtitle", "pack", entry_type="entry")
