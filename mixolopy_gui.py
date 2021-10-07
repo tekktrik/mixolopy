@@ -129,7 +129,7 @@ class MixoloPy(tk.Tk):
         if entry_type == "entry":
             self.edit_entry = ttk.Entry(master=label_master, width=25, textvariable=self.editing_stringvar, font=font_size)
             self.edit_entry.grid(column=0, row=0, padx=(0, 10))
-            self.edit_button = tk.Button(master=label_master, text="Save", command=lambda:self.update_recipe_field(tk_label, "title", pack_style))
+            self.edit_button = tk.Button(master=label_master, text="Save", command=lambda:self.update_recipe_field(tk_label, recipe_attr, pack_style))
             self.edit_button.grid(column=1, row=0)
         
     def user_edit_drink_name(self, *args):
